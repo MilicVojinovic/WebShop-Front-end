@@ -17,8 +17,6 @@ const menuItems = [
   new MainMenuItem("Log in" , "/user/login/"),
 ];
 
-
-
 ReactDOM.render(
   <React.StrictMode>
     <MainMenu items = { menuItems }></MainMenu>
