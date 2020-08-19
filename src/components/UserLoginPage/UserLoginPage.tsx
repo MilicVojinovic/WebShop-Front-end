@@ -48,7 +48,7 @@ export class UserLoginPage extends React.Component {
 
         this.setState(newState);
 
-       }
+    }
 
     private setErrorMessage(message: string) {
         const newState = Object.assign(this.state, {
@@ -72,12 +72,14 @@ export class UserLoginPage extends React.Component {
             'post',
             { email: this.state.email, password: this.state.password }
         ).then((res: ApiResponse) => {
-                        
+
+            // check if api.ts sent error status  
             if (res.status === 'error') {
-                this.setErrorMessage("Invalid format of email or password");
+                this.setErrorMessage("System error... Try again");
                 return;
             }
 
+            // check if api.ts sent ok status 
             if (res.status === 'ok') {
                 if (res.data.statusCode !== undefined) {
                     let message = '';
@@ -93,7 +95,7 @@ export class UserLoginPage extends React.Component {
                 // change login state of Component to true
                 saveToken(res.data.token);
                 saveRefreshToken(res.data.refreshToken);
-                
+
                 // redirect user after successful login to homepage ...     /#/
                 this.setLoginState(true);
             }
@@ -104,7 +106,7 @@ export class UserLoginPage extends React.Component {
 
     render() {
         if (this.state.isLoggedIn === true) {
-            return (<Redirect to = "/" />);
+            return (<Redirect to="/" />);
         }
 
         return (
@@ -135,8 +137,8 @@ export class UserLoginPage extends React.Component {
                                     </Button>
                                 </Form.Group>
                             </Form>
-                            <Alert variant="danger" 
-                                className = {this.state.errorMessage ? '' : 'd-none'}>
+                            <Alert variant="danger"
+                                className={this.state.errorMessage ? '' : 'd-none'}>
                                 {this.state.errorMessage}
                             </Alert>
                         </Card.Body>

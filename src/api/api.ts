@@ -19,7 +19,9 @@ export default function api(
             }
         }
 
-        // response (res) is type of LoginInfoDto from auth.controller in BackEnd???
+        // response (res) is type of LoginInfoDto or some other Dto object,
+        // depends on which front-end component is sending request 
+        // to corresponding backend api
         axios(requestData)
             .then(res => responseHandler(res, resolve))
             .catch(async err => {
@@ -32,8 +34,6 @@ export default function api(
 
                     return  resolve(response);
                 }
-
-
 
                 // STATUS CODE 401 - Bad Token :
                 // TODO : Refresh Token and retry
@@ -79,7 +79,7 @@ async function responseHandler(
 ) {
 
     console.log('in responseHandler');
-    // check if server has any error 
+     
     if (res.status < 200 || res.status >= 300) {
 
         console.log('in if (res.status < 200 || res.status >= 300)');
@@ -90,9 +90,8 @@ async function responseHandler(
 
         return resolve(response);
     }
-
-    // check if app in back-end has any error 
-
+ 
+    // everything went OK
     const response : ApiResponse = {
         status : 'ok',
         data: res.data
@@ -100,6 +99,9 @@ async function responseHandler(
 
     return resolve(response);
 }
+
+
+
 
 function getToken(): string {
     const token = localStorage.getItem('api_token')
