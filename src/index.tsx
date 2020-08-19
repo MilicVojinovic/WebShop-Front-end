@@ -27,7 +27,9 @@ const menuItems = [
   new MainMenuItem("Cat 21", "/category/:21"),
 ];
 
+// The purpose of the function render is to display the specified HTML code inside the specified HTML element
 ReactDOM.render(
+  //specified HTML code
   <React.StrictMode>
     <MainMenu items={menuItems}></MainMenu>
 
@@ -42,6 +44,8 @@ ReactDOM.render(
 
     </HashRouter>
   </React.StrictMode>,
+
+  //specified HTML element
   document.getElementById('root')
 );
 
