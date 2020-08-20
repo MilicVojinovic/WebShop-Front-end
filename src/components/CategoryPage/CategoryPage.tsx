@@ -44,7 +44,6 @@ export default class CategoryPage extends React.Component<CategoryPageProperties
 
     // works only with data from first mount
     componentWillMount() {
-        console.log("in will mount");
         this.getCategoryData();
     }
 

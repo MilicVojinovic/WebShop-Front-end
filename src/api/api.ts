@@ -78,12 +78,10 @@ async function responseHandler(
     resolve: (value?: ApiResponse) => void,
 ) {
 
-    console.log('in responseHandler');
-     
+      
     if (res.status < 200 || res.status >= 300) {
 
-        console.log('in if (res.status < 200 || res.status >= 300)');
-        const response: ApiResponse = {
+            const response: ApiResponse = {
             status: 'error',
             data: res.data
         };

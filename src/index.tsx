@@ -23,10 +23,6 @@ const menuItems = [
   new MainMenuItem("Contact", "/contact/"),
   new MainMenuItem("Log in", "/user/login/"),
   new MainMenuItem("Register", "/user/register/"),
-
-  new MainMenuItem("Cat 1 ", "/category/:1"),
-  new MainMenuItem("Cat 7", "/category/:7"),
-  new MainMenuItem("Cat 21", "/category/:21"),
 ];
 
 // The purpose of the function render is to display the specified HTML code inside the specified HTML element
