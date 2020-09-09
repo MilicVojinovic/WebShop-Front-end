@@ -11,6 +11,7 @@ interface HomePageState {
     categories: CategoryType[];
 }
 
+// data that we are getting from backend server api
 interface ApiCategoryDto {
     categoryId: number,
     name: string,
@@ -38,7 +39,7 @@ class HomePage extends React.Component {
     }
 
     private getCategories() {
-        api('api/category', 'get', {})
+        api('api/category/?filter=parentCategoryId||$isnull', 'get', {})
             .then((res: ApiResponse) => {
                 if (res.status === "error" || res.status === "login") {
                     this.setLoginState(false);
@@ -49,8 +50,9 @@ class HomePage extends React.Component {
             })
     }
 
+    // transform data from backend to data (CategoryType) we need in frontend
     private putCategoriesInState(data: ApiCategoryDto[]){
-    const categories: CategoryType[] = data.map(category => {
+    const categories: CategoryType[] | undefined = data?.map(category => {
         return {
             categoryId: category.categoryId,
             name: category.name,
@@ -110,9 +112,6 @@ render() {
                 </Card.Body>
             </Card>
         </Col>
-
-
-
     )
 
 }
