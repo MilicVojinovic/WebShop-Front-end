@@ -15,6 +15,7 @@ import ContactPage from './components/ContactPage/ContactPage';
 import { UserLoginPage } from './components/UserLoginPage/UserLoginPage';
 import CategoryPage from './components/CategoryPage/CategoryPage';
 import { UserRegistrationPage } from './components/UserRegistrationPage/UserRegistrationPage';
+import OrdersPage from './components/OrdersPage/OrdersPage';
 
 
 
@@ -23,6 +24,7 @@ const menuItems = [
   new MainMenuItem("Contact", "/contact/"),
   new MainMenuItem("Log in", "/user/login/"),
   new MainMenuItem("Register", "/user/register/"),
+  new MainMenuItem("My Orders", "/user/order/"),
 ];
 
 // The purpose of the function render is to display the specified HTML code inside the specified HTML element
@@ -40,6 +42,7 @@ ReactDOM.render(
         <Route path="/user/login" component={UserLoginPage} />
         <Route path="/user/register" component={UserRegistrationPage} />
         <Route path="/category/:cId" component={CategoryPage} />
+        <Route path="/user/order" component={OrdersPage} />
       </Switch>
 
     </HashRouter>

@@ -76,7 +76,7 @@ export default class Cart extends React.Component {
             });
     }
 
-    private calculateSum(): number {
+    calculateSum(): number {
         let sum: number = 0;
 
         if (!this.state.cart) {

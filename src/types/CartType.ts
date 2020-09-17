@@ -1,8 +1,10 @@
+import { StringLiteral } from "typescript";
+
 export default interface CartType  {
     cartId : number ;
     userId : number ;
     createdAt : string;
-    user: any;
+    user: string;
     cartArticles : {
         cartArticleId : number;
         articleId : number;
@@ -16,6 +18,7 @@ export default interface CartType  {
             };
             articlePrices : {
                 articlePriceId : number;
+                createdAt : string;
                 price : number;
             }[];
         }
