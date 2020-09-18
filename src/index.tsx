@@ -16,15 +16,18 @@ import { UserLoginPage } from './components/UserLoginPage/UserLoginPage';
 import CategoryPage from './components/CategoryPage/CategoryPage';
 import { UserRegistrationPage } from './components/UserRegistrationPage/UserRegistrationPage';
 import OrdersPage from './components/OrdersPage/OrdersPage';
+import { AdministratorLoginPage } from './components/AdministratorLoginPage/AdministratorLoginPage';
+import AdministratorDashboard from './components/AdministratorDashboard/AdministratorDashboard';
 
 
 
 const menuItems = [
   new MainMenuItem("Home", "/"),
   new MainMenuItem("Contact", "/contact/"),
-  new MainMenuItem("Log in", "/user/login/"),
   new MainMenuItem("Register", "/user/register/"),
   new MainMenuItem("My Orders", "/user/order/"),
+  new MainMenuItem("User Log in", "/user/login/"),
+  new MainMenuItem("Administrator Log in", "/administrator/login/"),
 ];
 
 // The purpose of the function render is to display the specified HTML code inside the specified HTML element
@@ -43,6 +46,8 @@ ReactDOM.render(
         <Route path="/user/register" component={UserRegistrationPage} />
         <Route path="/category/:cId" component={CategoryPage} />
         <Route path="/user/order" component={OrdersPage} />
+        <Route path="/administrator/login" component={AdministratorLoginPage} />
+        <Route path="/administrator/dashboard" component={AdministratorDashboard} />
       </Switch>
 
     </HashRouter>

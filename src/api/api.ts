@@ -5,6 +5,7 @@ export default function api(
     path: string,
     method: 'get' | 'post' | 'patch' | 'delete',
     body: any | undefined,
+    role : 'user' | 'administrator' = 'user',
 ) {
     return new Promise<ApiResponse>((resolve) => {
 
@@ -15,7 +16,7 @@ export default function api(
             data: JSON.stringify(body),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': getToken(),
+                'Authorization': getToken(role),
             }
         }
 
@@ -41,7 +42,7 @@ export default function api(
                 // because Token and Refresh Token has expired
                 if (err.response.status === 401) {
 
-                    const newToken = await refreshToken();
+                    const newToken = await refreshToken(role);
 
                     if (!newToken) {
                         const response: ApiResponse = {
@@ -52,9 +53,9 @@ export default function api(
                         return resolve(response);
                     }
 
-                    saveToken(newToken);
+                    saveToken(role , newToken);
 
-                    requestData.headers['Authorization'] = getToken();
+                    requestData.headers['Authorization'] = getToken(role);
 
                     return await repeatRequest(requestData, resolve);
                 }
@@ -77,7 +78,6 @@ async function responseHandler(
     res: AxiosResponse<any>,
     resolve: (value?: ApiResponse) => void,
 ) {
-
       
     if (res.status < 200 || res.status >= 300) {
 
@@ -101,31 +101,40 @@ async function responseHandler(
 
 
 
-function getToken(): string {
-    const token = localStorage.getItem('api_token')
+function getToken(role : 'user' | 'administrator'): string {
+    const token = localStorage.getItem('api_token' + role)
     return 'Bearer ' + token;
 }
 
-export function saveToken(token: string) {
-    localStorage.setItem('api_token', token);
+export function saveToken(role : 'user' | 'administrator' , token: string) {
+    localStorage.setItem('api_token' + role , token);
 }
 
-function getRefreshToken(): string {
-    const token = localStorage.getItem('api_refresh_token')
+function getRefreshToken(role : 'user' | 'administrator'): string {
+    const token = localStorage.getItem('api_refresh_token' + role)
     return token + '';
 }
 
-export function saveRefreshToken(token: string) {
-    localStorage.setItem('api_refresh_token', token);
+export function saveRefreshToken(role : 'user' | 'administrator' , token: string) {
+    localStorage.setItem('api_refresh_token' + role, token);
+}
+
+export function saveIdentity(role : 'user' | 'administrator' , identity: string) {
+    localStorage.setItem('api_identity' + role,identity );
+}
+
+export function getIdentity(role : 'user' | 'administrator'): string {
+    const token = localStorage.getItem('api_identity' + role)
+    return 'Bearer ' + token;
 }
 
 
-async function refreshToken(): Promise<string | null> {
+async function refreshToken(role : 'user' | 'administrator'): Promise<string | null> {
 
-    const path = 'auth/user/refresh';
+    const path = 'auth/' + role + '/refresh';
 
     const data = {
-        token: getRefreshToken()
+        token: getRefreshToken(role)
     };
 
     const refreshTokenRequestData: AxiosRequestConfig = {

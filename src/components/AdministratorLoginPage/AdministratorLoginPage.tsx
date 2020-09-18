@@ -2,41 +2,41 @@ import React from "react";
 import { Container, Card, Form, Button, Col, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import api, { ApiResponse, saveToken, saveRefreshToken } from "../../api/api";
+import api, { ApiResponse, saveToken, saveRefreshToken, saveIdentity } from "../../api/api";
 import { Redirect } from "react-router-dom";
 
-interface UserLoginPageState {
-    email: string;
+interface AdministratorLoginPageState {
+    username: string;
     password: string;
     errorMessage: string;
     isLoggedIn: boolean;
 }
 
-export class UserLoginPage extends React.Component {
+export class AdministratorLoginPage extends React.Component {
 
-    state: UserLoginPageState;
+    state: AdministratorLoginPageState;
 
     constructor(props: Readonly<{}>) {
         super(props);
 
         this.state = {
-            email: '',
+            username: '',
             password: '',
             errorMessage: '',
             isLoggedIn: false,
         }
     }
 
-    // setState props: email and password for current user
+    // setState props: username and password for current administrator
     private formInputChange(event: React.ChangeEvent<HTMLInputElement>) {
 
-        // let newState: UserLoginPageState = {
-        //     email: '',
+        // let newState: AdministratorLoginPageState = {
+        //     username: '',
         //     password: ''
         // };
 
-        // if (event.target.id === "email") {
-        //     newState.email = event.target.value;
+        // if (event.target.id === "username") {
+        //     newState.username = event.target.value;
         // } else {
         //     newState.password = event.target.value;
         // }
@@ -68,9 +68,9 @@ export class UserLoginPage extends React.Component {
 
     // when Log In button is clicked
     private doLogin() {
-        api('auth/user/login/',
+        api('auth/administrator/login/',
             'post',
-            { email: this.state.email, password: this.state.password }
+            { username: this.state.username, password: this.state.password }
         ).then((res: ApiResponse) => {
 
             // check if api.ts sent error status  
@@ -84,7 +84,7 @@ export class UserLoginPage extends React.Component {
                 if (res.data.statusCode !== undefined) {
                     let message = '';
                     switch (res.data.statusCode) {
-                        case -3001: message = 'Unknown e-mail!'; break;
+                        case -3001: message = 'Unknown username!'; break;
                         case -3002: message = 'Bad password!'; break;
                     }
                     this.setErrorMessage(message);
@@ -93,10 +93,12 @@ export class UserLoginPage extends React.Component {
 
                 // Log in went without issue,save token and refresh token in local storage,
                 // change login state of Component to true
-                saveToken('user',res.data.token);
-                saveRefreshToken('user' , res.data.refreshToken);
+                saveToken('administrator',res.data.token);
+                saveRefreshToken('administrator' , res.data.refreshToken);
 
-                // redirect user after successful login to homepage ...     /#/
+                saveIdentity('administrator' , res.data.identity);
+
+                // redirect administrator after successful login to homepage ...     /#/
                 this.setLoginState(true);
             }
         });
@@ -106,7 +108,7 @@ export class UserLoginPage extends React.Component {
 
     render() {
         if (this.state.isLoggedIn === true) {
-            return (<Redirect to="/" />);
+            return (<Redirect to="/administrator/dashboard" />);
         }
 
         return (
@@ -115,14 +117,14 @@ export class UserLoginPage extends React.Component {
                     <Card >
                         <Card.Body>
                             <Card.Title>
-                                <FontAwesomeIcon icon={faSignInAlt} />  User Login
+                                <FontAwesomeIcon icon={faSignInAlt} />  Administrator Login
                         </Card.Title>
 
                             <Form>
                                 <Form.Group>
-                                    <Form.Label htmlFor="email"> E-mail:  </Form.Label>
-                                    <Form.Control type="email" id="email"
-                                        value={this.state.email}
+                                    <Form.Label htmlFor="username"> Username  </Form.Label>
+                                    <Form.Control type="text" id="username"
+                                        value={this.state.username}
                                         onChange={event => this.formInputChange(event as any)} />
                                 </Form.Group>
                                 <Form.Group>
