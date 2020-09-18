@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import api, { ApiResponse, saveToken, saveRefreshToken, saveIdentity } from "../../api/api";
 import { Redirect } from "react-router-dom";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 interface AdministratorLoginPageState {
     username: string;
@@ -93,10 +94,10 @@ export class AdministratorLoginPage extends React.Component {
 
                 // Log in went without issue,save token and refresh token in local storage,
                 // change login state of Component to true
-                saveToken('administrator',res.data.token);
-                saveRefreshToken('administrator' , res.data.refreshToken);
+                saveToken('administrator', res.data.token);
+                saveRefreshToken('administrator', res.data.refreshToken);
 
-                saveIdentity('administrator' , res.data.identity);
+                saveIdentity('administrator', res.data.identity);
 
                 // redirect administrator after successful login to homepage ...     /#/
                 this.setLoginState(true);
@@ -113,6 +114,8 @@ export class AdministratorLoginPage extends React.Component {
 
         return (
             <Container>
+
+                <RoledMainMenu role='visitor' />
                 <Col md={{ span: 6, offset: 3 }}>
                     <Card >
                         <Card.Body>

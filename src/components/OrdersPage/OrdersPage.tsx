@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import api, { ApiResponse } from "../../api/api";
 import CartType from "../../types/CartType";
 import OrderType from "../../types/OrderType";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 interface OrdersPageState {
     isUserLoggedIn: boolean;
@@ -61,6 +62,11 @@ export default class OrdersPage extends React.Component {
         }
     }
 
+    private setLoginState(isUserLoggedIn: boolean) {
+        this.setState(Object.assign(this.state, {
+            isUserLoggedIn: isUserLoggedIn
+        }));
+    }
 
     private setCartVisibleState(state: boolean) {
         this.setState(Object.assign(this.state, {
@@ -101,6 +107,12 @@ export default class OrdersPage extends React.Component {
     private getOrders() {
         api('/api/user/cart/orders', 'get', {})
             .then((res: ApiResponse) => {
+
+                if (res.status === 'login' || res.status === 'error') {
+                    return this.setLoginState(false);
+                }
+
+
                 const data: OrderDto[] = res.data;
 
                 const orders: OrderType[] = data.map(order => ({
@@ -184,6 +196,8 @@ export default class OrdersPage extends React.Component {
 
             <Container>
 
+                <RoledMainMenu role='user' />
+
                 {/* List of orders */}
                 <Card>
                     <Card.Body>
@@ -226,7 +240,7 @@ export default class OrdersPage extends React.Component {
                             <tbody>
                                 {this.state.cart?.cartArticles.map(item => {
                                     const articlePrice = this.getLatestPriceBeforeDate(
-                                        item.article, 
+                                        item.article,
                                         this.state.cart?.createdAt
                                     )
 

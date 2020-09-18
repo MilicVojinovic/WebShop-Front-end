@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Container } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import { HashRouter, Link } from "react-router-dom";
 import Cart from "../Cart/Cart";
 
@@ -15,12 +15,13 @@ export class MainMenuItem {
     }
 }
 
-// initial values for state items *
+
 interface MainMenuProperties {
     items: MainMenuItem[];
+    showCart? : boolean;
 }
 
-// new values for items,set by setItems method ** 
+
 interface MainMenuState {
     items: MainMenuItem[];
 }
@@ -37,12 +38,6 @@ export class MainMenu extends React.Component<MainMenuProperties> {
             items: props.items,
         };
 
-        // const novaLista : MainMenuItem[] = [] ;
-        // setInterval(() => {
-            
-        //     novaLista.push(new MainMenuItem("Naslov", "/link"));
-        //     this.setItems(novaLista);
-        // }, 2000);
     }
 
     // set new values for items ** 
@@ -54,14 +49,12 @@ export class MainMenu extends React.Component<MainMenuProperties> {
 
     render() {
         return (
-            <Container>
                 <Nav variant="tabs">
                     <HashRouter>
                         {this.state.items.map(this.makeNavLink)}
-                        <Cart />
+                        {this.props.showCart ? <Cart /> : ''}
                     </HashRouter>
                 </Nav>
-            </Container>
         );
     }
 

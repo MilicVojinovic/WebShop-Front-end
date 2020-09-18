@@ -7,7 +7,6 @@ import 'jquery/dist/jquery.js';
 import 'popper.js/dist/popper.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
-import { MainMenu, MainMenuItem } from './components/MainMenu/MainMenu';
 import HomePage from './components/HomePage/HomePage';
 import { HashRouter, Route } from 'react-router-dom';
 import Switch from 'react-bootstrap/esm/Switch';
@@ -21,21 +20,10 @@ import AdministratorDashboard from './components/AdministratorDashboard/Administ
 
 
 
-const menuItems = [
-  new MainMenuItem("Home", "/"),
-  new MainMenuItem("Contact", "/contact/"),
-  new MainMenuItem("Register", "/user/register/"),
-  new MainMenuItem("My Orders", "/user/order/"),
-  new MainMenuItem("User Log in", "/user/login/"),
-  new MainMenuItem("Administrator Log in", "/administrator/login/"),
-];
-
 // The purpose of the function render is to display the specified HTML code inside the specified HTML element
 ReactDOM.render(
   //specified HTML code
   <React.StrictMode>
-    <MainMenu items={menuItems}></MainMenu>
-    <br />
     
     <HashRouter>
 
@@ -45,7 +33,7 @@ ReactDOM.render(
         <Route path="/user/login" component={UserLoginPage} />
         <Route path="/user/register" component={UserRegistrationPage} />
         <Route path="/category/:cId" component={CategoryPage} />
-        <Route path="/user/order" component={OrdersPage} />
+        <Route path="/user/orders" component={OrdersPage} />
         <Route path="/administrator/login" component={AdministratorLoginPage} />
         <Route path="/administrator/dashboard" component={AdministratorDashboard} />
       </Switch>
