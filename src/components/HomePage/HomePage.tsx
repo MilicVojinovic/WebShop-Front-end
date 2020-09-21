@@ -6,17 +6,14 @@ import CategoryType from '../../types/CategoryType';
 import { Redirect, Link } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
 import RoledMainMenu from '../RoledMainMenu/RoledMainMenu';
+import ApiCategoryDto from '../../dtos/ApiCategoryDto';
 
 interface HomePageState {
     isUserLoggedIn: boolean;
     categories: CategoryType[];
 }
 
-// data that we are getting from backend server api
-interface ApiCategoryDto {
-    categoryId: number,
-    name: string,
-}
+
 
 class HomePage extends React.Component {
 
@@ -52,72 +49,72 @@ class HomePage extends React.Component {
     }
 
     // transform data from backend to data (CategoryType) we need in frontend
-    private putCategoriesInState(data: ApiCategoryDto[]){
-    const categories: CategoryType[] | undefined = data?.map(category => {
-        return {
-            categoryId: category.categoryId,
-            name: category.name,
-            items : [],
-        };
-    });
+    private putCategoriesInState(data: ApiCategoryDto[]) {
+        const categories: CategoryType[] | undefined = data?.map(category => {
+            return {
+                categoryId: category.categoryId,
+                name: category.name,
+                items: [],
+            };
+        });
 
-    const newState = Object.assign(this.state, {
-        categories: categories,
-    });
+        const newState = Object.assign(this.state, {
+            categories: categories,
+        });
 
-    this.setState(newState);
-}
-
-
-    private setLoginState(isUserLoggedIn: boolean) {
-    const newState = Object.assign(this.state, {
-        isUserLoggedIn: isUserLoggedIn
-    });
-
-    this.setState(newState);
-}
-
-render() {
-
-    if (this.state.isUserLoggedIn === false) {
-        return (<Redirect to="/user/login" />);
+        this.setState(newState);
     }
 
 
-    return (
-        <Container>
-            <RoledMainMenu role='user' />
-            
-            <Card>
-                <Card.Body>
-                    <Card.Title>
-                        <FontAwesomeIcon icon={faListAlt} />  Top level categories
+    private setLoginState(isUserLoggedIn: boolean) {
+        const newState = Object.assign(this.state, {
+            isUserLoggedIn: isUserLoggedIn
+        });
+
+        this.setState(newState);
+    }
+
+    render() {
+
+        if (this.state.isUserLoggedIn === false) {
+            return (<Redirect to="/user/login" />);
+        }
+
+
+        return (
+            <Container>
+                <RoledMainMenu role='user' />
+
+                <Card>
+                    <Card.Body>
+                        <Card.Title>
+                            <FontAwesomeIcon icon={faListAlt} />  Top level categories
                         </Card.Title>
-                    <Row>
-                        {this.state.categories.map(this.singleCategory)}
-                    </Row>
-                </Card.Body>
-            </Card>
-        </Container>
-    );
-}
+                        <Row>
+                            {this.state.categories.map(this.singleCategory)}
+                        </Row>
+                    </Card.Body>
+                </Card>
+            </Container>
+        );
+    }
 
     private singleCategory(category: CategoryType) {
-    return (
-        <Col lg="3" md="4" sm="6" xs="12">
-            <Card className= "mb-3">
-                <Card.Body>
-                    <Card.Title as="p">{category.name}</Card.Title>
-                    <Link to={`/category/${category.categoryId}`}
-                        className="btn btn-primary btn-block btn-sm" >
-                        Open category
+        return (
+            <Col lg="3" md="4" sm="6" xs="12">
+                <Card className="mb-3">
+                    <Card.Body>
+                        <Card.Title as="p">{category.name}</Card.Title>
+                        <Link to={`/category/${category.categoryId}`}
+                            className="btn btn-primary btn-block btn-sm" >
+                            Open category
                         </Link>
-                </Card.Body>
-            </Card>
-        </Col>
-    )
+                    </Card.Body>
+                </Card>
+            </Col>
+        )
 
-}
+    }
 
 
 }

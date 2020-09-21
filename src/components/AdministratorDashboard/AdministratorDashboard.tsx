@@ -4,7 +4,7 @@ import React from 'react';
 import { Container, Card } from 'react-bootstrap';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
 import RoledMainMenu from '../RoledMainMenu/RoledMainMenu';
 
@@ -32,20 +32,20 @@ class AdministratorDashboard extends React.Component {
         this.getMyData();
     }
 
-    private getMyData(){
-        api('/api/administrator/' , 'get' , {} , 'administrator')
-        .then((res: ApiResponse) => {
-            if (res.status === "error" || res.status === "login") {
-                this.setLoginState(false);
-                return;
-            };
+    private getMyData() {
+        api('/api/administrator/', 'get', {}, 'administrator')
+            .then((res: ApiResponse) => {
+                if (res.status === "error" || res.status === "login") {
+                    this.setLoginState(false);
+                    return;
+                };
 
-            // ....
-        });
+                // ....
+            });
     }
 
 
-   
+
     private setLoginState(isAdministratorLoggedIn: boolean) {
         const newState = Object.assign(this.state, {
             isAdministratorLoggedIn: isAdministratorLoggedIn
@@ -63,20 +63,36 @@ class AdministratorDashboard extends React.Component {
 
         return (
             <Container>
-                 <RoledMainMenu role='administrator' />
+                <RoledMainMenu role='administrator' />
                 <Card>
                     <Card.Body>
                         <Card.Title>
                             <FontAwesomeIcon icon={faHome} /> AdministratorDashboard
                         </Card.Title>
-                        ...pera zdera
+                        <ul>
+                            <li>
+                                <Link to="/administrator/dashboard/category/">
+                                    Categories
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/administrator/dashboard/features/">
+                                    Features
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/administrator/dashboard/articles/">
+                                    Articles
+                                </Link>
+                            </li>
+                        </ul>
                     </Card.Body>
                 </Card>
             </Container>
         );
     }
 
-    
+
 }
 
 export default AdministratorDashboard;
