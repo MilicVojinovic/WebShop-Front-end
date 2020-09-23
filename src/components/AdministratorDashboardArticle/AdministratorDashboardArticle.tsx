@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Card, Table, Button, Modal, Form, Alert, Col, Row } from 'react-bootstrap';
-import { faEdit, faListAlt, faPlus, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faImages, faListAlt, faPlus, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import api, { apiFile, ApiResponse } from '../../api/api';
 import RoledMainMenu from '../RoledMainMenu/RoledMainMenu';
 import ArticleType from '../../types/ArticleType';
@@ -385,8 +385,14 @@ class AdministratorDashboardArticle extends React.Component {
                                         <td>{article.status}</td>
                                         <td>{article.isPromoted ? 'Yes' : 'No'}</td>
                                         <td className="text-right" >{article.price}</td>
-
                                         <td className="text-center">
+                                            <Link to={"/administrator/dashboard/photo/" +
+                                                article.articleId }
+                                                className="btn btn-sm btn-info mr-3" >
+                                                <FontAwesomeIcon icon={faImages} />
+                                                Photos
+                                            </Link>
+
                                             <Button variant="info" size="sm"
                                                 onClick={() => this.showEditModal(article)}>
                                                 <FontAwesomeIcon icon={faEdit} /> Edit
@@ -645,7 +651,7 @@ class AdministratorDashboardArticle extends React.Component {
     }
 
     private doAddArticle() {
-        const filePicker: any = document.getElementById('edit-photo');
+        const filePicker: any = document.getElementById('add-photo');
 
         if (filePicker?.files.length === 0) {
             this.setAddModalStringFieldState('message', 'You must select a file to upload!')
@@ -676,7 +682,7 @@ class AdministratorDashboardArticle extends React.Component {
                     return;
                 };
 
-                const articleId = res.data.articleId;
+                const articleId : number = res.data.articleId;
 
                 const file = filePicker.files[0];
 
@@ -709,8 +715,8 @@ class AdministratorDashboardArticle extends React.Component {
             excerpt: this.state.editModal.excerpt,
             description: this.state.editModal.description,
             price: this.state.editModal.price,
-            status : this.state.editModal.status,
-            isPromoted : this.state.editModal.isPromoted,
+            status: this.state.editModal.status,
+            isPromoted: this.state.editModal.isPromoted,
             features: this.state.editModal.features
                 .filter(feature => feature.use === 1)
                 .map(feature => ({
@@ -767,7 +773,7 @@ class AdministratorDashboardArticle extends React.Component {
                 if (articleFeature.featureId === apiFeature.featureId) {
                     apiFeature.use = 1;
                     apiFeature.value = articleFeature.value;
-                } 
+                }
             }
         }
 
