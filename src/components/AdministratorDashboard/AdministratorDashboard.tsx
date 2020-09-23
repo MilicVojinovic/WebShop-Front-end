@@ -24,7 +24,7 @@ class AdministratorDashboard extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getMyData();
     }
 
@@ -76,12 +76,7 @@ class AdministratorDashboard extends React.Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/administrator/dashboard/features/">
-                                    Features
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/administrator/dashboard/articles/">
+                                <Link to="/administrator/dashboard/article/">
                                     Articles
                                 </Link>
                             </li>

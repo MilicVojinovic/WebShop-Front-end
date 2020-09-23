@@ -19,6 +19,7 @@ import { AdministratorLoginPage } from './components/AdministratorLoginPage/Admi
 import AdministratorDashboard from './components/AdministratorDashboard/AdministratorDashboard';
 import AdministratorDashboardCategory from './components/AdministratorDashboardCategory/AdministratorDashboardCategory';
 import AdministratorDashboardFeature from './components/AdministratorDashboardFeature/AdministratorDashboardFeature';
+import AdministratorDashboardArticle from './components/AdministratorDashboardArticle/AdministratorDashboardArticle';
 
 
 
@@ -40,6 +41,7 @@ ReactDOM.render(
         <Route exact path="/administrator/dashboard/" component={AdministratorDashboard} />
         <Route path="/administrator/dashboard/category/" component={AdministratorDashboardCategory} />
         <Route path="/administrator/dashboard/feature/:cId" component={AdministratorDashboardFeature} />
+        <Route path="/administrator/dashboard/article/" component={AdministratorDashboardArticle} />
       </Switch>
 
     </HashRouter> 

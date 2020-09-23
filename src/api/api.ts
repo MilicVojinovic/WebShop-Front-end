@@ -69,6 +69,77 @@ export default function api(
     });
 }
 
+
+export function apiFile(
+    path: string,
+    name : string,
+    file: File,
+    role : 'user' | 'administrator' = 'user',
+) {
+    return new Promise<ApiResponse>((resolve) => {
+        const formData = new FormData();
+        formData.append(name , file);
+
+        const requestData : AxiosRequestConfig = {
+            method: 'post',
+            url: path,
+            baseURL: ApiConfig.API_URL,
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': getToken(role),
+            }
+        }
+
+        // response (res) is type of LoginInfoDto or some other Dto object,
+        // depends on which front-end component is sending request 
+        // to corresponding backend api
+        axios(requestData)
+            .then(res => responseHandler(res, resolve))
+            .catch(async err => {
+
+                if(err.response.status === 400){
+                    const response: ApiResponse = {
+                        status: 'error',
+                        data: err.response.data.message
+                    };
+
+                    return  resolve(response);
+                }
+
+                // STATUS CODE 401 - Bad Token :
+                // TODO : Refresh Token and retry
+                // If we can't Refresh Token we must redirect user to Log In,
+                // because Token and Refresh Token has expired
+                if (err.response.status === 401) {
+
+                    const newToken = await refreshToken(role);
+
+                    if (!newToken) {
+                        const response: ApiResponse = {
+                            status: 'login',
+                            data: null
+                        };
+
+                        return resolve(response);
+                    }
+
+                    saveToken(role , newToken);
+
+                    requestData.headers['Authorization'] = getToken(role);
+
+                    return await repeatRequest(requestData, resolve);
+                }
+
+                const response: ApiResponse = {
+                    status: 'error',
+                    data: err
+                }
+                resolve(response);
+            });
+    });
+}
+
 export interface ApiResponse {
     status: 'ok' | 'error' | 'login';
     data: any;
