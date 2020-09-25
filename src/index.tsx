@@ -21,6 +21,8 @@ import AdministratorDashboardCategory from './components/AdministratorDashboardC
 import AdministratorDashboardFeature from './components/AdministratorDashboardFeature/AdministratorDashboardFeature';
 import AdministratorDashboardArticle from './components/AdministratorDashboardArticle/AdministratorDashboardArticle';
 import AdministratorDashboardPhoto from './components/AdministratorDashboardPhoto/AdministratorDashboardPhoto';
+import ArticlePage from './components/ArticlePage/ArticlePage';
+import AdministratorDashboardOrder from './components/AdministratorDashboardOrder/AdministratorDashboardOrder';
 
 
 
@@ -37,6 +39,7 @@ ReactDOM.render(
         <Route path="/user/login" component={UserLoginPage} />
         <Route path="/user/register" component={UserRegistrationPage} />
         <Route path="/category/:cId" component={CategoryPage} />
+        <Route path="/article/:aId" component={ArticlePage} />
         <Route path="/user/orders" component={OrdersPage} />
         <Route path="/administrator/login" component={AdministratorLoginPage} />
         <Route exact path="/administrator/dashboard/" component={AdministratorDashboard} />
@@ -44,6 +47,8 @@ ReactDOM.render(
         <Route path="/administrator/dashboard/feature/:cId" component={AdministratorDashboardFeature} />
         <Route path="/administrator/dashboard/article/" component={AdministratorDashboardArticle} />
         <Route path="/administrator/dashboard/photo/:aId" component={AdministratorDashboardPhoto} />
+        <Route path="/administrator/dashboard/order" component={AdministratorDashboardOrder} />
+        
       </Switch>
 
     </HashRouter> 

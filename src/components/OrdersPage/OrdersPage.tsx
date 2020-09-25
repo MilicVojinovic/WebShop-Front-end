@@ -74,7 +74,7 @@ export default class OrdersPage extends React.Component {
         }));
     }
 
-    private setCarState(cart: CartType) {
+    private setCartState(cart: CartType) {
         this.setState(Object.assign(this.state, {
             cart: cart
         }));
@@ -280,7 +280,7 @@ export default class OrdersPage extends React.Component {
     }
 
     private setAndShowCart(cart: CartType) {
-        this.setCarState(cart);
+        this.setCartState(cart);
         this.showCart();
     }
 

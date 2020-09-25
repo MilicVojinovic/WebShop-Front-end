@@ -80,6 +80,11 @@ class AdministratorDashboard extends React.Component {
                                     Articles
                                 </Link>
                             </li>
+                            <li>
+                                <Link to="/administrator/dashboard/order/">
+                                    Orders
+                                </Link>
+                            </li>
                         </ul>
                     </Card.Body>
                 </Card>

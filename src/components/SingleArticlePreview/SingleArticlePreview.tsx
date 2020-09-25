@@ -1,54 +1,20 @@
 import React from "react";
-import { Col, Card, Form, Row, Button } from "react-bootstrap";
+import { Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import api, { ApiResponse } from "../../api/api";
 import { ApiConfig } from "../../config/api.config";
 import ArticleType from "../../types/ArticleType";
+import AddToCartInput from "../AddToCartInput/AddToCartInput";
 
 interface SingleArticlePreviewProperties {
     article : ArticleType;
 }
 
-interface SingleArticlePreviewState {
-    quantity : number;
-}
-
 export default class SingleArticlePreview extends React.Component<SingleArticlePreviewProperties> {
 
-    state : SingleArticlePreviewState;
+    // constructor(props: Readonly<SingleArticlePreviewProperties>) {
+    //     super(props);
 
-    constructor(props: Readonly<SingleArticlePreviewProperties>) {
-        super(props);
-
-        this.state = {
-            quantity : 1,
-        }
-    }
-
-    private quantityChanged(event : React.ChangeEvent<HTMLInputElement>){
-        // No need for Object.assign function because we have only one property in the state!!! 
-        this.setState({
-            quantity : Number(event.target.value),
-        })
-    }
-
-    private addToCart(){
-        const data = {
-            articleId : this.props.article.articleId,
-            quantity : this.state.quantity,
-        }
-
-        api('api/user/cart/addToCart/' , "post" , data)
-        .then((res: ApiResponse) => {
-            if (res.status === 'error' || res.status === 'login') {
-                return;
-            }
-
-            const event = new CustomEvent('cart.update');
-            window.dispatchEvent(event);
-          
-        });
-    }
+    // }
 
     render() {
         return (
@@ -69,20 +35,9 @@ export default class SingleArticlePreview extends React.Component<SingleArticleP
                         <Card.Text>
                             Price : {Number(this.props.article.price).toFixed(2)} EUR
                         </Card.Text>
-                        <Form.Group>
-                            <Row>
-                                <Col xs="7">
-                                    <Form.Control type="number" min="1"
-                                        step="1" value={this.state.quantity}
-                                         onChange = {(e) => this.quantityChanged(e as any)} />
-                                </Col>
-                                <Col xs="5">
-                                    <Button variant="secondary" block
-                                    onClick = { () => this.addToCart()}
-                                    >Buy</Button>
-                                </Col>
-                            </Row>
-                        </Form.Group>
+                      
+                        <AddToCartInput article={this.props.article} />
+
                         <Link to={`/article/${this.props.article.articleId}`}
                             className="btn btn-primary btn-block btn-sm" >
                             Open article page
